@@ -40,7 +40,7 @@ public class Inicio extends JFrame {
 	 * Create the frame.
 	 */
 	public Inicio() {
-		setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\aleja\\Downloads\\GAMEVERSE.png"));
+		setIconImage(Toolkit.getDefaultToolkit().getImage("../GAMEVERSE.jpg"));
 		setTitle("GV");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 769, 693);
