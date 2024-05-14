@@ -142,9 +142,9 @@ public class CrearUsuario extends JFrame {
 		    String password = new String(passwordChars);
 		    String confirmPassword = new String(confirmPasswordChars);
 		    
+		    // validar datos del nuevo usuario
 		    if (!username.isBlank() && password.length() > 0 && confirmPassword.length() > 0) {
 		        if (password.equals(confirmPassword)) {
-		            System.out.println("Contraseñas coinciden");
 		            añadirUsuario(username, password);
 		        } else {
 		            System.out.println("Las contraseñas no coinciden");

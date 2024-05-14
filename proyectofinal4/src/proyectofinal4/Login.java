@@ -13,13 +13,14 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JCheckBox;
+import javax.swing.JPasswordField;
 
 public class Login extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel mipanel;
 	private JTextField txtUsuario;
-	private JTextField txtContraseña;
+	private JPasswordField passwordField;
 
 	/**
 	 * Launch the application.
@@ -68,18 +69,12 @@ public class Login extends JFrame {
 		lblContraseña.setBounds(92, 262, 122, 41);
 		mipanel.add(lblContraseña);
 		
-		txtContraseña = new JTextField();
-		txtContraseña.setToolTipText("Introduce la contraseña");
-		txtContraseña.setBounds(258, 270, 280, 34);
-		mipanel.add(txtContraseña);
-		txtContraseña.setColumns(10);
-		
 		JButton btnContinuar = new JButton("Continuar");
 		btnContinuar.setFont(new Font("Times New Roman", Font.PLAIN, 13));
 		btnContinuar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				PaginaPrincipal newUser=new PaginaPrincipal();
+				Biblioteca newUser=new Biblioteca();
 				newUser.setVisible(true);
 				mipanel.setVisible(false);
 			}
@@ -108,5 +103,9 @@ public class Login extends JFrame {
 		lblInicioDeSesin.setFont(new Font("Times New Roman", Font.PLAIN, 40));
 		lblInicioDeSesin.setBounds(258, 52, 269, 95);
 		mipanel.add(lblInicioDeSesin);
+		
+		passwordField = new JPasswordField();
+		passwordField.setBounds(258, 262, 280, 34);
+		mipanel.add(passwordField);
 	}
 }

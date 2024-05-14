@@ -15,7 +15,7 @@ import javax.swing.JMenu;
 import javax.swing.JTextField;
 import java.awt.Color;
 
-public class PaginaPrincipal extends JFrame {
+public class Biblioteca extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
@@ -27,7 +27,7 @@ public class PaginaPrincipal extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					PaginaPrincipal frame = new PaginaPrincipal();
+					Biblioteca frame = new Biblioteca();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -39,7 +39,7 @@ public class PaginaPrincipal extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public PaginaPrincipal() {
+	public Biblioteca() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 769, 693);
 		contentPane = new JPanel();
@@ -73,12 +73,12 @@ public class PaginaPrincipal extends JFrame {
 		contentPane.add(lblNewLabel_1);
 		
 		JMenu mnNewMenu_1 = new JMenu("Buscar juegos");
-		mnNewMenu_1.setBounds(252, 67, 139, 28);
+		mnNewMenu_1.setBounds(269, 67, 139, 28);
 		contentPane.add(mnNewMenu_1);
 		
 		JButton btnVolver = new JButton("Volver");
 		btnVolver.setFont(new Font("Times New Roman", Font.PLAIN, 13));
-		btnVolver.setBounds(642, 67, 103, 28);
+		btnVolver.setBounds(620, 67, 103, 28);
 		contentPane.add(btnVolver);
 		
 		btnVolver.addActionListener(new ActionListener() {
