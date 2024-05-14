@@ -9,18 +9,22 @@ import javax.swing.JLabel;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
 import javax.swing.JTextField;
 import javax.swing.JCheckBox;
+import javax.swing.Action;
 import javax.swing.JButton;
+import javax.swing.JPasswordField;
 
 public class CrearUsuario extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
+	private JTextField textFieldUser;
+	private JPasswordField passwordFieldConfirm;
+	private JPasswordField passwordField;
 
 	/**
 	 * Launch the application.
@@ -75,23 +79,11 @@ public class CrearUsuario extends JFrame {
 		lblContrasea_1.setBounds(85, 377, 117, 42);
 		contentPane.add(lblContrasea_1);
 		
-		textField = new JTextField();
-		textField.setToolTipText("Introduce el nombre del usuario");
-		textField.setColumns(10);
-		textField.setBounds(232, 184, 280, 34);
-		contentPane.add(textField);
-		
-		textField_1 = new JTextField();
-		textField_1.setToolTipText("Introduce el nombre del usuario");
-		textField_1.setColumns(10);
-		textField_1.setBounds(232, 268, 280, 34);
-		contentPane.add(textField_1);
-		
-		textField_2 = new JTextField();
-		textField_2.setToolTipText("Introduce el nombre del usuario");
-		textField_2.setColumns(10);
-		textField_2.setBounds(232, 354, 280, 34);
-		contentPane.add(textField_2);
+		textFieldUser = new JTextField();
+		textFieldUser.setToolTipText("Introduce el nombre del usuario");
+		textFieldUser.setColumns(10);
+		textFieldUser.setBounds(232, 196, 280, 34);
+		contentPane.add(textFieldUser);
 		
 		JCheckBox chckbxNewCheckBox = new JCheckBox("Recuerdame");
 		chckbxNewCheckBox.setFont(new Font("Times New Roman", Font.PLAIN, 12));
@@ -105,16 +97,25 @@ public class CrearUsuario extends JFrame {
 		
 		JButton btnContinuar = new JButton("Continuar");
 		btnContinuar.setFont(new Font("Times New Roman", Font.PLAIN, 13));
-		btnContinuar.setBounds(409, 468, 103, 28);
+		btnContinuar.setBounds(409, 464, 103, 28);
 		contentPane.add(btnContinuar);
+		
+		passwordFieldConfirm = new JPasswordField();
+		passwordFieldConfirm.setBounds(232, 353, 280, 34);
+		contentPane.add(passwordFieldConfirm);
+		
+		passwordField = new JPasswordField();
+		passwordField.setBounds(232, 273, 280, 34);
+		contentPane.add(passwordField);
 		
 		btnContinuar.addActionListener(new ActionListener() {
 			
 			public void actionPerformed(ActionEvent e) {
 				
-				PaginaPrincipal newUser=new PaginaPrincipal();
-				newUser.setVisible(true);
-				contentPane.setVisible(false);
+//				PaginaPrincipal newUser=new PaginaPrincipal();
+//				newUser.setVisible(true);
+//				contentPane.setVisible(false);
+				nuevousuario();
 			}
 			
 		});
@@ -131,4 +132,30 @@ public class CrearUsuario extends JFrame {
 
 	}
 
+	protected void nuevousuario() {
+		// declaro variables para guardar las contraseñas; cadena de chars en strings
+		 String username = textFieldUser.getText();
+		    char[] passwordChars = passwordField.getPassword();
+		    char[] confirmPasswordChars = passwordFieldConfirm.getPassword();
+		    
+		    // Convertir los arreglos de caracteres a cadenas
+		    String password = new String(passwordChars);
+		    String confirmPassword = new String(confirmPasswordChars);
+		    
+		    if (!username.isBlank() && password.length() > 0 && confirmPassword.length() > 0) {
+		        if (password.equals(confirmPassword)) {
+		            System.out.println("Contraseñas coinciden");
+		            añadirUsuario(username, password);
+		        } else {
+		            System.out.println("Las contraseñas no coinciden");
+		        }
+		    } else {
+		        System.out.println("Campos incompletos, rellene todos los datos");
+		    }
+		
+	}
+
+	 private void añadirUsuario(String username, String password) {
+	       System.out.println("usuario añadido");
+	    }
 }
