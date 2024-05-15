@@ -6,6 +6,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -19,6 +21,8 @@ import javax.swing.JButton;
 import javax.swing.JPasswordField;
 
 public class CrearUsuario extends JFrame {
+	BaseDatos baseDatos = new BaseDatos();
+    
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
@@ -111,11 +115,11 @@ public class CrearUsuario extends JFrame {
 		btnContinuar.addActionListener(new ActionListener() {
 			
 			public void actionPerformed(ActionEvent e) {
-				
-//				PaginaPrincipal newUser=new PaginaPrincipal();
-//				newUser.setVisible(true);
-//				contentPane.setVisible(false);
 				nuevousuario();
+				Login newUser=new Login();
+				newUser.setVisible(true);
+				contentPane.setVisible(false);
+				
 			}
 			
 		});
@@ -145,17 +149,17 @@ public class CrearUsuario extends JFrame {
 		    // validar datos del nuevo usuario
 		    if (!username.isBlank() && password.length() > 0 && confirmPassword.length() > 0) {
 		        if (password.equals(confirmPassword)) {
-		            añadirUsuario(username, password);
+		        	try {
+						baseDatos.insertarUsuario(username, password);
+					} catch (SQLException e) {
+						e.printStackTrace();
+					}
 		        } else {
-		            System.out.println("Las contraseñas no coinciden");
+		        	JOptionPane.showMessageDialog(null, "Las contraseñas no coinciden", "Error", JOptionPane.ERROR_MESSAGE);
 		        }
 		    } else {
-		        System.out.println("Campos incompletos, rellene todos los datos");
+		    	JOptionPane.showMessageDialog(null, "Campos incompletos, rellene todos los datos", "Error", JOptionPane.ERROR_MESSAGE);
 		    }
 		
 	}
-
-	 private void añadirUsuario(String username, String password) {
-	       System.out.println("usuario añadido");
-	    }
 }
