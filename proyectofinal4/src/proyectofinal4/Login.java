@@ -6,17 +6,25 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Toolkit;
 import java.awt.Font;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.awt.event.ActionEvent;
 import javax.swing.JCheckBox;
 import javax.swing.JPasswordField;
 
 public class Login extends JFrame {
-
+	
+	private Connection conn;
+	
 	private static final long serialVersionUID = 1L;
 	private JPanel mipanel;
 	private JTextField txtUsuario;
@@ -77,6 +85,7 @@ public class Login extends JFrame {
 				Biblioteca newUser=new Biblioteca();
 				newUser.setVisible(true);
 				mipanel.setVisible(false);
+				validarInicio();
 			}
 		});
 		btnContinuar.setBounds(434, 367, 103, 28);
@@ -108,4 +117,24 @@ public class Login extends JFrame {
 		passwordField.setBounds(258, 262, 280, 34);
 		mipanel.add(passwordField);
 	}
+
+	protected void validarInicio() {
+		
+		// declaro variables para guardar las contraseñas; cadena de chars en strings
+				 String username = txtUsuario.getText();
+				 char[] passwordChars = passwordField.getPassword();
+				    
+				    
+				 // Convertir los arreglos de caracteres a cadenas
+				 String password = new String(passwordChars);
+				    
+				    
+				    // validar datos del nuevo usuario
+				    if (!username.isBlank() && password.length() > 0) {
+				        	System.out.println("correcto");
+				    } else {
+				    	JOptionPane.showMessageDialog(null, "Campos incompletos, rellene todos los datos", "Error", JOptionPane.ERROR_MESSAGE);
+				    }
+	}
+
 }
