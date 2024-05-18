@@ -1,4 +1,4 @@
-package proyectofinal4;
+package Proyecto;
 
 import java.awt.EventQueue;
 
@@ -6,22 +6,35 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
 import javax.swing.JTextField;
 import javax.swing.JCheckBox;
+import javax.swing.Action;
 import javax.swing.JButton;
+import javax.swing.JPasswordField;
+import javax.swing.ImageIcon;
 
 public class CrearUsuario extends JFrame {
+	
+	BaseDatos baseDatos = new BaseDatos();
+    
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
-
+	private JTextField textFieldUser;
+	private JPasswordField passwordFieldConfirm;
+	private JPasswordField passwordField;
+	Connection conn;
 	/**
 	 * Launch the application.
 	 */
@@ -42,6 +55,15 @@ public class CrearUsuario extends JFrame {
 	 * Create the frame.
 	 */
 	public CrearUsuario() {
+		
+		setIconImage(Toolkit.getDefaultToolkit().getImage("./img/Icono.jpg"));
+		setTitle("GV");
+		try {
+			conn =DriverManager.getConnection("jdbc:mariadb://localhost:3306/gameverse","root",null);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 769, 693);
 		contentPane = new JPanel();
@@ -75,23 +97,11 @@ public class CrearUsuario extends JFrame {
 		lblContrasea_1.setBounds(85, 377, 117, 42);
 		contentPane.add(lblContrasea_1);
 		
-		textField = new JTextField();
-		textField.setToolTipText("Introduce el nombre del usuario");
-		textField.setColumns(10);
-		textField.setBounds(232, 184, 280, 34);
-		contentPane.add(textField);
-		
-		textField_1 = new JTextField();
-		textField_1.setToolTipText("Introduce el nombre del usuario");
-		textField_1.setColumns(10);
-		textField_1.setBounds(232, 268, 280, 34);
-		contentPane.add(textField_1);
-		
-		textField_2 = new JTextField();
-		textField_2.setToolTipText("Introduce el nombre del usuario");
-		textField_2.setColumns(10);
-		textField_2.setBounds(232, 354, 280, 34);
-		contentPane.add(textField_2);
+		textFieldUser = new JTextField();
+		textFieldUser.setToolTipText("Introduce el nombre del usuario");
+		textFieldUser.setColumns(10);
+		textFieldUser.setBounds(232, 196, 280, 34);
+		contentPane.add(textFieldUser);
 		
 		JCheckBox chckbxNewCheckBox = new JCheckBox("Recuerdame");
 		chckbxNewCheckBox.setFont(new Font("Times New Roman", Font.PLAIN, 12));
@@ -105,16 +115,28 @@ public class CrearUsuario extends JFrame {
 		
 		JButton btnContinuar = new JButton("Continuar");
 		btnContinuar.setFont(new Font("Times New Roman", Font.PLAIN, 13));
-		btnContinuar.setBounds(409, 468, 103, 28);
+		btnContinuar.setBounds(409, 464, 103, 28);
 		contentPane.add(btnContinuar);
+		
+		passwordFieldConfirm = new JPasswordField();
+		passwordFieldConfirm.setBounds(232, 353, 280, 34);
+		contentPane.add(passwordFieldConfirm);
+		
+		passwordField = new JPasswordField();
+		passwordField.setBounds(232, 273, 280, 34);
+		contentPane.add(passwordField);
+		
+		JLabel lblNewLabel_1 = new JLabel("New label");
+		lblNewLabel_1.setIcon(new ImageIcon("./img/CrearUser.jpg"));
+		lblNewLabel_1.setBounds(0, 0, 767, 670);
+		contentPane.add(lblNewLabel_1);
 		
 		btnContinuar.addActionListener(new ActionListener() {
 			
 			public void actionPerformed(ActionEvent e) {
-				
-				PaginaPrincipal newUser=new PaginaPrincipal();
-				newUser.setVisible(true);
-				contentPane.setVisible(false);
+						
+				nuevousuario();
+			
 			}
 			
 		});
@@ -125,10 +147,53 @@ public class CrearUsuario extends JFrame {
 				Inicio volver=new Inicio();
 				volver.setVisible(true);
 				contentPane.setVisible(false);
+				dispose();
 			}
 			
 		});
 
 	}
 
+	protected void nuevousuario() {
+		
+		// declaro variables para guardar las contraseñas; cadena de chars en strings
+		 String username = textFieldUser.getText();
+		    char[] passwordChars = passwordField.getPassword();
+		    char[] confirmPasswordChars = passwordFieldConfirm.getPassword();
+		    
+		    // Convertir los arreglos de caracteres a cadenas
+		    String password = new String(passwordChars);
+		    String confirmPassword = new String(confirmPasswordChars);
+		    boolean confirmar=false;
+		 while(!confirmar) {   
+		    // validar datos del nuevo usuario
+		    if (!username.isBlank() && password.length() > 0 && confirmPassword.length() > 0) {
+		    	
+		        if (password.equals(confirmPassword)) {
+		        	confirmar=true;
+		        	Login newUser=new Login(null);
+		        	newUser.setVisible(true);
+					contentPane.setVisible(false);
+					
+		        	try {
+						baseDatos.insertarUsuario(username, password);
+						dispose();
+					} catch (SQLException e) {
+						e.printStackTrace();
+					}
+		 
+		        } else {
+		        	JOptionPane.showMessageDialog(null, "Las contraseñas no coinciden", "Error", JOptionPane.ERROR_MESSAGE);
+		        	break;
+		        }
+		    } else {
+		    	JOptionPane.showMessageDialog(null, "Campos incompletos, rellene todos los datos", "Error", JOptionPane.ERROR_MESSAGE);
+		    	break;
+		    }
+		 }
+	}
+
+	public JTextField getTextFieldUser() {
+		return textFieldUser;
+	}
 }
