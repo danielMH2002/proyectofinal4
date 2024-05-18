@@ -1,4 +1,4 @@
-package proyectofinal4;
+package Proyecto;
 
 import java.awt.EventQueue;
 
@@ -11,24 +11,29 @@ import java.awt.Font;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
 import java.awt.event.ActionEvent;
-import javax.swing.JCheckBox;
+import javax.swing.JPasswordField;
+import javax.swing.ImageIcon;
 
 public class Login extends JFrame {
-
+	BaseDatos bbdd = new BaseDatos();
+	
+	private Connection conn;
+	
 	private static final long serialVersionUID = 1L;
 	private JPanel mipanel;
 	private JTextField txtUsuario;
-	private JTextField txtContraseña;
+	private JPasswordField passwordField;
 
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
+	public static void main(String[] args,String user) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Login frame = new Login();
+					Login frame = new Login(user);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -39,9 +44,11 @@ public class Login extends JFrame {
 
 	/**
 	 * Create the frame.
+	 * @param user 
 	 */
-	public Login() {
-		setTitle("CV");
+	public Login(String user) {
+		setIconImage(Toolkit.getDefaultToolkit().getImage("./img/Icono.jpg"));
+		setTitle("GV");
 		setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\aleja\\Downloads\\GAMEVERSE.png"));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 769, 693);
@@ -56,7 +63,7 @@ public class Login extends JFrame {
 		lblUsuario.setBounds(92, 189, 103, 41);
 		mipanel.add(lblUsuario);
 		
-		txtUsuario = new JTextField();
+		txtUsuario=new JTextField();
 		txtUsuario.setToolTipText("Introduce el nombre del usuario");
 		txtUsuario.setBounds(258, 197, 280, 34);
 		mipanel.add(txtUsuario);
@@ -67,21 +74,16 @@ public class Login extends JFrame {
 		lblContraseña.setFont(new Font("Times New Roman", Font.PLAIN, 25));
 		lblContraseña.setBounds(92, 262, 122, 41);
 		mipanel.add(lblContraseña);
-		
-		txtContraseña = new JTextField();
-		txtContraseña.setToolTipText("Introduce la contraseña");
-		txtContraseña.setBounds(258, 270, 280, 34);
-		mipanel.add(txtContraseña);
-		txtContraseña.setColumns(10);
-		
+
 		JButton btnContinuar = new JButton("Continuar");
 		btnContinuar.setFont(new Font("Times New Roman", Font.PLAIN, 13));
-		btnContinuar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+		btnContinuar.addActionListener( new ActionListener() {
 				
-				PaginaPrincipal newUser=new PaginaPrincipal();
-				newUser.setVisible(true);
-				mipanel.setVisible(false);
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				accederApp();
+				
+				
 			}
 		});
 		btnContinuar.setBounds(434, 367, 103, 28);
@@ -92,21 +94,42 @@ public class Login extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				Inicio volver=new Inicio();
 				volver.setVisible(true);
-				mipanel.setVisible(false);
+				dispose();
 			}
 		});
 		btnVolver.setFont(new Font("Times New Roman", Font.PLAIN, 13));
 		btnVolver.setBounds(258, 367, 103, 28);
 		mipanel.add(btnVolver);
 		
-		JCheckBox chckbxNewCheckBox = new JCheckBox("Recuerdame");
-		chckbxNewCheckBox.setFont(new Font("Times New Roman", Font.PLAIN, 12));
-		chckbxNewCheckBox.setBounds(258, 328, 122, 21);
-		mipanel.add(chckbxNewCheckBox);
-		
 		JLabel lblInicioDeSesin = new JLabel("Inicio de sesión");
 		lblInicioDeSesin.setFont(new Font("Times New Roman", Font.PLAIN, 40));
 		lblInicioDeSesin.setBounds(258, 52, 269, 95);
 		mipanel.add(lblInicioDeSesin);
+		
+		passwordField = new JPasswordField();
+		passwordField.setBounds(258, 262, 280, 34);
+		mipanel.add(passwordField);
+		
+		JLabel lblNewLabel = new JLabel("New label");
+		lblNewLabel.setIcon(new ImageIcon("C:\\Users\\aleja\\OneDrive\\Escritorio\\AYYYY.png"));
+		lblNewLabel.setBounds(0, -21, 775, 687);
+		mipanel.add(lblNewLabel);
 	}
+
+	private void accederApp() {
+		
+		String password=new String (passwordField.getPassword());		
+		if(!(txtUsuario.getText().isBlank() || password.isBlank())) {
+		
+			BaseDatos bbdd=new BaseDatos();
+			if((bbdd.loginBD(txtUsuario.getText(),password))){
+							
+				PaginaPrincipal v=new PaginaPrincipal(txtUsuario.getText());
+				v.setVisible(true);
+				dispose();
+			}else{
+				System.out.println("nanai");
+			}			
+		}			
+	}	
 }
