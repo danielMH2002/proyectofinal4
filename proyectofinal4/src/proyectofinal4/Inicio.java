@@ -1,4 +1,4 @@
-package proyectofinal4;
+package Proyecto;
 
 import java.awt.EventQueue;
 
@@ -40,7 +40,8 @@ public class Inicio extends JFrame {
 	 * Create the frame.
 	 */
 	public Inicio() {
-		setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\aleja\\Downloads\\GAMEVERSE.png"));
+		
+		setIconImage(Toolkit.getDefaultToolkit().getImage("./img/Icono.jpg"));
 		setTitle("GV");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 769, 693);
@@ -53,13 +54,28 @@ public class Inicio extends JFrame {
 		
 		JButton btnInicioSesion = new JButton("Inicio sesion");
 		btnInicioSesion.setFont(new Font("Times New Roman", Font.PLAIN, 13));
-		btnInicioSesion.setBounds(439, 231, 122, 37);
+		btnInicioSesion.setBounds(290, 234, 122, 37);
 		contentPane.add(btnInicioSesion);
 		
 		JButton btnCrearCuenta = new JButton("Crear cuenta");
 		btnCrearCuenta.setFont(new Font("Times New Roman", Font.PLAIN, 13));
-		btnCrearCuenta.setBounds(166, 231, 122, 37);
+		btnCrearCuenta.setBounds(290, 375, 122, 37);
 		contentPane.add(btnCrearCuenta);
+		
+		JLabel lblNewLabel_1 = new JLabel("O");
+		lblNewLabel_1.setFont(new Font("Times New Roman", Font.PLAIN, 30));
+		lblNewLabel_1.setBounds(337, 295, 58, 56);
+		contentPane.add(lblNewLabel_1);
+		
+		JLabel lblNewLabel_2 = new JLabel("GameVerse Studio");
+		lblNewLabel_2.setFont(new Font("Times New Roman", Font.PLAIN, 25));
+		lblNewLabel_2.setBounds(261, 24, 258, 46);
+		contentPane.add(lblNewLabel_2);
+		
+		JLabel lblNewLabel = new JLabel("New label");
+		lblNewLabel.setIcon(new ImageIcon("C:\\Users\\aleja\\OneDrive\\Escritorio\\ad.png"));
+		lblNewLabel.setBounds(0, -13, 766, 685);
+		contentPane.add(lblNewLabel);
 		btnCrearCuenta.addActionListener(new ActionListener(){
 			
 			public void actionPerformed(ActionEvent e) {
@@ -74,9 +90,11 @@ public class Inicio extends JFrame {
 			
 			public void actionPerformed(ActionEvent e) {
 				
-				Login usuario=new Login();
+				Login usuario=new Login(null);
 				usuario.setVisible(true);
 				contentPane.setVisible(false);
+				dispose();
+			
 			}
 			
 		});
