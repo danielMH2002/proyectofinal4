@@ -1,7 +1,6 @@
-package Proyecto;
+package proyecto;
 
 import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -16,20 +15,25 @@ import java.awt.event.ActionEvent;
 import javax.swing.JPasswordField;
 import javax.swing.ImageIcon;
 
+/**
+ * La clase Login representa la ventana de inicio de sesión de la aplicación.
+ * Permite al usuario ingresar sus credenciales para acceder a la aplicación principal.
+ */
 public class Login extends JFrame {
-	BaseDatos bbdd = new BaseDatos();
-	
-	private Connection conn;
 	
 	private static final long serialVersionUID = 1L;
 	private JPanel mipanel;
 	private JTextField txtUsuario;
 	private JPasswordField passwordField;
+	private Connection conn;
+	private BaseDatos bbdd = new BaseDatos();
 
 	/**
-	 * Launch the application.
+	 * Método principal para lanzar la aplicación.
+	 * @param args Argumentos de línea de comando.
+	 * @param user El nombre de usuario que se utilizará en la interfaz.
 	 */
-	public static void main(String[] args,String user) {
+	public static void main(String[] args, String user) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -43,8 +47,9 @@ public class Login extends JFrame {
 	}
 
 	/**
-	 * Create the frame.
-	 * @param user 
+	 * Constructor de la clase Login.
+	 * Crea el marco, inicializa sus componentes y configura los eventos de los botones.
+	 * @param user El nombre de usuario que se utilizará en la interfaz.
 	 */
 	public Login(String user) {
 		setIconImage(Toolkit.getDefaultToolkit().getImage("./img/Icono.jpg"));
@@ -57,42 +62,39 @@ public class Login extends JFrame {
 
 		setContentPane(mipanel);
 		mipanel.setLayout(null);
-		
+
 		JLabel lblUsuario = new JLabel("Usuario");
 		lblUsuario.setFont(new Font("Times New Roman", Font.PLAIN, 25));
 		lblUsuario.setBounds(92, 189, 103, 41);
 		mipanel.add(lblUsuario);
-		
-		txtUsuario=new JTextField();
+
+		txtUsuario = new JTextField();
 		txtUsuario.setToolTipText("Introduce el nombre del usuario");
 		txtUsuario.setBounds(258, 197, 280, 34);
 		mipanel.add(txtUsuario);
 		txtUsuario.setColumns(10);
-		
+
 		JLabel lblContraseña = new JLabel("Contraseña");
-		lblContraseña.setToolTipText("Introduce your password");
+		lblContraseña.setToolTipText("Introduce tu contraseña");
 		lblContraseña.setFont(new Font("Times New Roman", Font.PLAIN, 25));
 		lblContraseña.setBounds(92, 262, 122, 41);
 		mipanel.add(lblContraseña);
 
 		JButton btnContinuar = new JButton("Continuar");
 		btnContinuar.setFont(new Font("Times New Roman", Font.PLAIN, 13));
-		btnContinuar.addActionListener( new ActionListener() {
-				
+		btnContinuar.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				accederApp();
-				
-				
 			}
 		});
 		btnContinuar.setBounds(434, 367, 103, 28);
 		mipanel.add(btnContinuar);
-		
+
 		JButton btnVolver = new JButton("Volver");
 		btnVolver.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Inicio volver=new Inicio();
+				Inicio volver = new Inicio();
 				volver.setVisible(true);
 				dispose();
 			}
@@ -100,36 +102,37 @@ public class Login extends JFrame {
 		btnVolver.setFont(new Font("Times New Roman", Font.PLAIN, 13));
 		btnVolver.setBounds(258, 367, 103, 28);
 		mipanel.add(btnVolver);
-		
+
 		JLabel lblInicioDeSesin = new JLabel("Inicio de sesión");
 		lblInicioDeSesin.setFont(new Font("Times New Roman", Font.PLAIN, 40));
 		lblInicioDeSesin.setBounds(258, 52, 269, 95);
 		mipanel.add(lblInicioDeSesin);
-		
+
 		passwordField = new JPasswordField();
 		passwordField.setBounds(258, 262, 280, 34);
 		mipanel.add(passwordField);
-		
+
 		JLabel lblNewLabel = new JLabel("New label");
 		lblNewLabel.setIcon(new ImageIcon("C:\\Users\\aleja\\OneDrive\\Escritorio\\AYYYY.png"));
 		lblNewLabel.setBounds(0, -21, 775, 687);
 		mipanel.add(lblNewLabel);
 	}
 
+	/**
+	 * Método para acceder a la aplicación principal.
+	 * Verifica las credenciales del usuario y, si son correctas, abre la ventana principal.
+	 */
 	private void accederApp() {
-		
-		String password=new String (passwordField.getPassword());		
-		if(!(txtUsuario.getText().isBlank() || password.isBlank())) {
-		
-			BaseDatos bbdd=new BaseDatos();
-			if((bbdd.loginBD(txtUsuario.getText(),password))){
-							
-				PaginaPrincipal v=new PaginaPrincipal(txtUsuario.getText());
+		String password = new String(passwordField.getPassword());
+		if (!(txtUsuario.getText().isBlank() || password.isBlank())) {
+			BaseDatos bbdd = new BaseDatos();
+			if (bbdd.loginBD(txtUsuario.getText(), password)) {
+				PaginaPrincipal v = new PaginaPrincipal(txtUsuario.getText());
 				v.setVisible(true);
 				dispose();
-			}else{
+			} else {
 				System.out.println("nanai");
-			}			
-		}			
-	}	
+			}
+		}
+	}
 }
